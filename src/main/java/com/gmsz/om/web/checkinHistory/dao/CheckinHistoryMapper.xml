@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gmsz.om.web.checkinHistory.dao.CheckinHistoryMapper">
+	<insert id="insertHistory">
+	    insert into checkinHistory (userName,assetsName,assetsLocation,checkTime,assetsId)
+	    values (#{userName},#{assetsName},#{assetsLocation},#{checkTime},#{assetsId})
+	</insert>
+	
+	<select id="getLastTime" resultType="java.util.Date">
+	    select checkTime from checkinHistory where checkTime is not null order by checkTime desc limit 1
+	</select>
+	
+	<delete id="deleteOneMinute" parameterType="string">
+	    <![CDATA[delete from checkinHistory where checkTime >= #{startTime}]]>
+	</delete>
+</mapper>

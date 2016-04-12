@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gmsz.om.web.opc.dao.OpcMapper">
+    
+    <select id="getDictionaryIdByCode" resultType="long" parameterType="string">
+	    select id from dictionary where code = #{code}
+	</select>
+    
+    <update id="updateStatus" parameterType="com.gmsz.om.common.beans.MonitorStatus">
+	    update monitorStatus set curStatus = #{curStatus},createTime = #{createTime} where assetsId = #{assetsId} and dictionaryId = #{dictionaryId}
+	</update>
+	
+    <insert id="insertStatus" parameterType="com.gmsz.om.common.beans.MonitorStatus">
+	    insert into monitorStatus (assetsId,dictionaryId,curStatus,createTime) values
+	    (#{assetsId},#{dictionaryId},#{curStatus},#{createTime})
+	</insert>
+	
+    <insert id="insertUploadStatus" parameterType="com.gmsz.om.common.beans.UploadStatus" useGeneratedKeys="true" keyProperty="id">
+		insert into uploadStatus (addTime,uploadJsonStr,status,ifType) 
+		values (#{addTime},#{uploadJsonStr},#{status},#{ifType})
+	</insert>
+	
+    <select id="queryServers" resultType="com.gmsz.om.common.beans.ServerConf">
+        select * from serverConf
+    </select>
+    
+    <select id="queryOpcMap" parameterType="long" resultType="com.gmsz.om.common.beans.OpcMap">
+        select * from opcMap where serverId = #{serverId}
+    </select>
+    
+    <select id="queryOpcResult" parameterType="com.gmsz.om.common.beans.OpcMap" resultType="com.gmsz.om.web.opc.bean.OpcResult">
+        select a.serialNumber,d.code as monitorCode,a.id as assetsId from opcMap o 
+        LEFT JOIN assets a on o.assetsId = a.id
+        LEFT JOIN dictionary d on o.dictionaryId = d.id 
+        where o.id = #{id}
+    </select>
+</mapper>

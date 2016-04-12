@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gmsz.om.web.assets.dao.AssetsMapper">
+	<select id="getClickServiceNameByAssetsId" resultType="string" parameterType="long">
+	    select m.clickAct from assets a,assetsModel m where a.modelId = m.id and a.id = #{assetsId} 
+	</select>
+	
+	<select id="getStatusServiceNameByAssetsId" resultType="string" parameterType="long">
+	    select m.statusAct from assets a,assetsModel m where a.modelId = m.id and a.id = #{assetsId} 
+	</select>
+	
+	<select id="getAssetsByCategory" resultType="com.gmsz.om.common.beans.Assets" parameterType="long">
+	    select * from assets where categoryId = #{categoryId}
+	</select>
+	
+	<select id="getAssetsId" resultType="long" parameterType="java.util.Map">
+	    select assetsId from assetsProperties where value = #{value} and dictionaryId = #{dictionaryId}
+	</select>
+	
+	<select id="getAssetsById" resultType="com.gmsz.om.common.beans.Assets" parameterType="long">
+	    select * from assets where id = #{assetsId}
+	</select>
+	
+	<select id="getAssetsPropByDictionay" resultType="string" parameterType="java.util.Map">
+	    select value from assetsProperties where assetsId = #{assetsId} and dictionaryId = #{dicId} limit 1
+	</select>
+	
+	<select id="getAssetsByProp" resultType="long" parameterType="java.util.Map">
+	    select assetsId from assetsProperties where value = #{value} and dictionaryId = #{dicId} limit 1
+	</select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.gmsz.om.web.dictionary.dao.DictionaryMapper">
+	<select id="getDictionaryIdByCode" resultType="long" parameterType="string">
+	    select id from dictionary where code = #{code}
+	</select>
+	
+	<select id="getDict" resultType="com.gmsz.om.common.beans.Dictionary" parameterType="long">
+	    select * from dictionary where id = #{id}
+	</select>
+</mapper>
