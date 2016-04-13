@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import org.openscada.opc.lib.da.DataCallback;
 import org.openscada.opc.lib.da.Item;
 import org.openscada.opc.lib.da.ItemState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.gmsz.om.common.beans.MonitorStatus;
 import com.gmsz.om.common.beans.OpcMap;
@@ -19,6 +21,8 @@ import com.gmsz.om.web.opc.dao.OpcMapper;
 
 
 public class DataCallbackDumper implements DataCallback{
+	
+	private static final Logger LOG = LoggerFactory.getLogger(DataCallbackDumper.class);
 	
 	private OpcMapper opcMapper;
 	
@@ -31,6 +35,7 @@ public class DataCallbackDumper implements DataCallback{
 
 	@Override
 	public void changed(Item item, ItemState arg1) {
+		//遍历出所有的设备
 		List<OpcResult> resultList = this.opcMapper.queryOpcResult(opcMap);
 		for(OpcResult result : resultList) {
 			JSONObject obj = new JSONObject();
@@ -40,6 +45,8 @@ public class DataCallbackDumper implements DataCallback{
 			obj.put("serialNumber", result.getSerialNumber());
 
 			String value = arg1.getValue().toString();
+			LOG.info("valTest",value);
+			
 			value = value.substring(2, value.length()-2);
 			obj.put(result.getMonitorCode(), value);
 			String uploadJsonStr = obj.toString();
