@@ -18,6 +18,7 @@ import com.gmsz.om.common.beans.UploadStatus;
 import com.gmsz.om.common.utils.Constant;
 import com.gmsz.om.web.opc.bean.OpcResult;
 import com.gmsz.om.web.opc.dao.OpcMapper;
+import com.gmsz.om.web.webScoket.AircoldServerEndpoint;
 
 
 public class DataCallbackDumper implements DataCallback{
@@ -68,6 +69,9 @@ public class DataCallbackDumper implements DataCallback{
 			if (count < 1) {
 				this.opcMapper.insertStatus(mstatus);
 			}
+			
+			//webSocket
+			AircoldServerEndpoint.broadcast(value);
 		}
 		
 	}
