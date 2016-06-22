@@ -46,17 +46,19 @@ public class DataCallbackDumper implements DataCallback{
 			obj.put("serialNumber", result.getSerialNumber());
 
 			String value = arg1.getValue().toString();
+			
 			LOG.info("valTest",value);
 			
 			value = value.substring(2, value.length()-2);
 			obj.put(result.getMonitorCode(), value);
+			value = value.substring(0, 2);
 			String uploadJsonStr = obj.toString();
 			UploadStatus status = new UploadStatus();
 			status.setAddTime(new Date());
 			status.setStatus(UploadStatus.STATUS_NOT_SEND);
 			status.setUploadJsonStr(uploadJsonStr);
 			status.setIfType("/information/status/push");
-			this.opcMapper.insertUploadStatus(status);
+//			this.opcMapper.insertUploadStatus(status);
 
 			MonitorStatus mstatus = new MonitorStatus();
 			Long dicId = this.opcMapper.getDictionaryIdByCode(result
@@ -71,7 +73,7 @@ public class DataCallbackDumper implements DataCallback{
 			}
 			
 			//webSocket
-			AircoldServerEndpoint.broadcast(value);
+			AircoldServerEndpoint.broadcast(dicId+"-"+result.getAssetsId()+"-"+value);
 		}
 		
 	}
